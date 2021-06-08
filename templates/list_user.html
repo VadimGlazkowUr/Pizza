@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<meta charset="UTF-8">
+
+{% if current_user.is_authenticated and current_user.role == 'manager' %}
+    <h2>Пользователи сайта</h2>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">id</th>
+      <th scope="col">Имя</th>
+      <th scope="col">email</th>
+      <th scope="col">Телефон</th>
+      <th scope="col">Адрес</th>
+      <th scope="col">Администратор</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for user in users %}
+    <tr>
+      <th scope="row">{{ user.id }}</th>
+      <td>{{ user.name }}</td>
+      <td>{{ user.email }}</td>
+      <td>{{ user.telephone }}</td>
+      <td>{{ user.address }}</td>
+      <td>
+          {% if user.role %}
+            <a href="manager-{{ user.id }}" class="btn btn-primary btn-sm active">МЕНЕДЖЕР</a></td>
+          {% else %}
+            <a href="manager-{{ user.id }}" class="btn btn-primary btn-sm">Пользователь</a></td>
+          {% endif %}
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endif %}
+{% endblock %}

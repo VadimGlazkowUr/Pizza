@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Корзина</h2>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Название</th>
+      <th scope="col">Состав</th>
+      <th scope="col">Масса</th>
+      <th scope="col">Цена</th>
+      <th scope="col">Количество</th>
+      <th scope="col">Сумма</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for pizza in pizzas %}
+    <tr>
+      <td>{{ pizza.title }}</td>
+      <td>{{ pizza.description }}</td>
+      <td>{{ pizza.weight }}</td>
+      <td>{{ pizza.cost }}</td>
+      <td>
+        <div class="numberincrementer">
+          <a href="/prepend/{{ pizza.id }}"><div class="prepend">-</div></a>
+          <div class="number">{{ pizza.count }}</div>
+          <a href="/append/{{ pizza.id }}"><div class="append">+</div></a>
+        </div>
+      </td>
+      <td>{{ pizza.cost * pizza.count }}</td>
+      <td class="adel"><a href="/del/{{ pizza.id }}"><div class="del">X</div></a></td>
+    </tr>
+  {% endfor %}
+  <tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>Итого:</td>
+    <td>{{ sum }}</td>
+    {% if order_button %}
+      <td><a href="/order" class="btn btn-danger">Заказать</a></td>
+    {% endif %}
+  </tr>
+  </tbody>
+</table>
+
+{% endblock %}

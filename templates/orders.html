@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2>Заказы</h2>
+    <table class="table">
+        <thead>
+            <tr>
+              <th scope="col">Клиент</th>
+              <th scope="col">Время заказа</th>
+              <th scope="col">Время доставки</th>
+              <th scope="col">Заказ</th>
+              <th scope="col">Стоимость</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+                <tr>
+                    <td>
+                        <ul style="list-style-type: none; padding-left: 0; margin-left: 0;">
+                            <li><b>Имя</b> {{ order.user_name }}</li>
+                            <li><b>Тел.</b> {{ order.telephone }}</li>
+                            <li><b>Адрес:</b> {{ order.address }}</li>
+                        </ul>
+                    </td>
+                    <td>{{ order.time_order|strftime }}</td>
+                    <td>{{ order.time_delivery|strftime }}</td>
+                    <td>
+                        <table class="table">
+                          <tbody>
+                            {% for pizza in order.pizzas %}
+                                <tr>
+                                    <td>{{ pizza.pizza.title }}</td>
+                                    <td>{{ pizza.count }}</td>
+                                </tr>
+                            {% endfor %}
+                          </tbody>
+                        </table>
+                    </td>
+                    <td>{{ order.cost }}</td>
+                    <td><a href="/delorder/{{ order.id }}" class="btn btn-primary btn-sm">Закрыть</a> </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

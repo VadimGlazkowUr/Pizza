@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+    <meta charset="UTF-8">
+    {% if current_user.is_authenticated and current_user.role == 'manager' %}
+        <a href="/add-product" class="btn btn-primary btn-sm">Добавить</a>
+    {% endif %}
+    <div class="catalog">
+        <div class="row is-flex" style="justify-content: center;">
+            {% for pizza in pizzas %}
+                <div class="product col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
+                    <div class="product-container">
+                        <div class="product-main">
+                            <img alt="фото" class="d-block w-100" src="{{ url_for('static', filename=pizza.image) }}">						</a>
+                            <div class="product-name">
+                                <p>{{ pizza.title }}</p>
+                            </div>
+                            <div class="product-description">{{ pizza.description }}</div>
+                            <div class="product-item">
+                                <div class="product-item-price">
+                                    {{ pizza.cost }}<span>&nbsp;₽</span>
+                                </div>
+                                <div class="product-item-dimension">
+                                    {{ pizza.weight }} г.
+                                </div>
+                            </div>
+                            <div class="buttons">
+                                {% if current_user.is_authenticated and current_user.role == 'manager'  %}
+                                    <a href="/edit_product/{{ pizza.id }}" class="btn btn-warning">Редактировать</a>
+                                    <a href="/product_delete/{{ pizza.id }}" class="btn btn-danger">Удалить</a>
+                                {% else %}
+                                    {% if pizza.id|string in basket %}
+                                        <a href="/del_basket/{{ pizza.id }}" class="btn btn-warning">Удалить из корзины</a>
+                                    {% else %}
+                                        <a href="/add_basket/{{ pizza.id }}" class="btn btn-warning">В корзину</a>
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
